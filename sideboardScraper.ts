@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import * as fs from 'fs';
+import { createWriteStream } from 'fs';
 import * as rp from 'request-promise';
 
 const url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-'
@@ -42,7 +42,7 @@ function parseCardsList(html: string): Card[] {
 
 function writeToFile(cardsList: Card[], filename: string): void {
   console.log(`Writing results to ${filename}.`);
-  const stream = fs.createWriteStream(filename);
+  const stream = createWriteStream(filename);
 
   for (const card of cardsList) {
     stream.write(`${card.name},${card.count}\n`);
