@@ -17,5 +17,6 @@
     "request-promise": "^4.2.2",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.1"
-  }
+  },
+  "repository": "https://github.com/sten626/sideboard-scraper"
 }
