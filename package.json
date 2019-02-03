@@ -4,6 +4,7 @@
   "description": "Script for analyzing cards played in sideboards in MTGO deck dumps.",
   "main": "sideboardScraper.ts",
   "scripts": {
+    "lint": "tslint sideboardScraper.ts",
     "start": "ts-node sideboardScraper.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
