@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import * as fs from 'fs';
 import * as rp from 'request-promise';
 
 const url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-'
@@ -9,7 +10,7 @@ interface Card {
   count: number;
 }
 
-rp(url).then((html: string) => {
+function parseCardsList(html: string): Card[] {
   const $ = cheerio.load(html);
   const cards: {[name: string]: Card} = {};
 
@@ -36,7 +37,24 @@ rp(url).then((html: string) => {
     return b.count - a.count;
   });
 
-  console.log(cardsList);
+  return cardsList;
+}
+
+function writeToFile(cardsList: Card[], filename: string): void {
+  console.log(`Writing results to ${filename}.`);
+  const stream = fs.createWriteStream(filename);
+
+  for (const card of cardsList) {
+    stream.write(`${card.name},${card.count}\n`);
+  }
+
+  stream.end();
+  console.log('Finished writing.');
+}
+
+rp(url).then((html: string) => {
+  const cardsList = parseCardsList(html);
+  writeToFile(cardsList, 'sideboard.csv');
 }).catch((err: any) => {
   console.error(err);
 });
