@@ -10,13 +10,16 @@
   "author": "Steven Indzeoski",
   "license": "MIT",
   "dependencies": {
-    "@types/cheerio": "^0.22.10",
-    "@types/request-promise": "^4.1.42",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.1"
   },
-  "repository": "https://github.com/sten626/sideboard-scraper"
+  "repository": "https://github.com/sten626/sideboard-scraper",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.10",
+    "@types/request-promise": "^4.1.42",
+    "tslint": "^5.12.1"
+  }
 }
