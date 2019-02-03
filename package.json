@@ -1,0 +1,21 @@
+{
+  "name": "sideboard-scraper",
+  "version": "1.0.0",
+  "description": "Script for analyzing cards played in sideboards in MTGO deck dumps.",
+  "main": "sideboardScraper.ts",
+  "scripts": {
+    "start": "ts-node sideboardScraper.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Indzeoski",
+  "license": "MIT",
+  "dependencies": {
+    "@types/cheerio": "^0.22.10",
+    "@types/request-promise": "^4.1.42",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.1"
+  }
+}
