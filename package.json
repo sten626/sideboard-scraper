@@ -1,6 +1,6 @@
 {
   "name": "sideboard-scraper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Script for analyzing cards played in sideboards in MTGO deck dumps.",
   "main": "sideboardScraper.ts",
   "scripts": {
