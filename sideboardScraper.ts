@@ -4,11 +4,16 @@ import { createWriteStream } from 'fs';
 import requestPromise = require('request-promise');
 
 const dateRegex = /\d{4}-\d{2}-\d{2}/;
-let url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-';
 
 interface Card {
   name: string;
   count: number;
+}
+
+enum Format {
+  Legacy = 'legacy',
+  Modern = 'modern',
+  Standard = 'standard'
 }
 
 function parseCardsList(html: string): Card[] {
@@ -60,14 +65,19 @@ const parser = new ArgumentParser({
   version: process.env.npm_package_version
 });
 
+parser.addArgument(['-d', '--date'], {
+  help: 'YYYY-MM-DD',
+  required: true
+});
+
+parser.addArgument(['-f', '--format'], {
+  help: '(L)egacy or (M)odern or (S)tandard',
+  required: true
+});
+
 parser.addArgument(['-o', '--output'], {
   defaultValue: './sideboard.csv',
   help: 'Filename where you want to save the results (csv).'
-});
-
-parser.addArgument(['-d', '--date'], {
-  help: 'Date string for the results to grab (YYYY-MM-DD).',
-  required: true
 });
 
 const args = parser.parseArgs();
@@ -77,7 +87,22 @@ if (!dateRegex.test(date)) {
   console.error('Invalid date given. Should match format YYYY-MM-DD.');
 }
 
-url += date;
+let format = args.format.toLowerCase();
+
+if (format === 'l') {
+  format = Format.Legacy;
+} else if (format === 'm') {
+  format = Format.Modern;
+} else if (format === 's') {
+  format = Format.Standard;
+}
+
+if (format !== Format.Legacy && format !== Format.Modern && format !== Format.Standard) {
+  console.error('Invalid format given. Should be Legacy, Modern, or Standard');
+}
+
+const url = `https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-`
+  + `${format}-constructed-league-${date}`;
 
 requestPromise(url).then((html: string) => {
   const cardsList = parseCardsList(html);
