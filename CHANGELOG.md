@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Output to CSV file.
 - Ability to specify an output filename.
+- Flags for specifying format and date.
 
 ## 1.0.0 - 2019-02-03
 ### Added
