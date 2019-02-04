@@ -3,8 +3,8 @@ import * as cheerio from 'cheerio';
 import { createWriteStream } from 'fs';
 import requestPromise = require('request-promise');
 
-const url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-'
-  + '2019-02-01';
+const dateRegex = /\d{4}-\d{2}-\d{2}/;
+let url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-';
 
 interface Card {
   name: string;
@@ -64,7 +64,19 @@ parser.addArgument(['-o', '--output'], {
   help: 'Filename where you want to save the results (csv).'
 });
 
+parser.addArgument(['-d', '--date'], {
+  help: 'Date string for the results to grab (YYYY-MM-DD).',
+  required: true
+});
+
 const args = parser.parseArgs();
+const date = args.date;
+
+if (!dateRegex.test(date)) {
+  console.error('Invalid date given. Should match format YYYY-MM-DD.');
+}
+
+url += date;
 
 requestPromise(url).then((html: string) => {
   const cardsList = parseCardsList(html);
