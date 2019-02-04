@@ -30,6 +30,7 @@ function parseCardsList(html: string): Card[] {
   });
 
   const cardsList = Object.keys(cards).map((name) => cards[name]);
+
   cardsList.sort((a: Card, b: Card) => {
     if (a.count === b.count) {
       return a.name.localeCompare(b.name);
@@ -80,6 +81,12 @@ url += date;
 
 requestPromise(url).then((html: string) => {
   const cardsList = parseCardsList(html);
+
+  if (cardsList.length === 0) {
+    console.log('Nothing found for given date.');
+    return;
+  }
+
   writeToFile(cardsList, args.output);
 }).catch((err: any) => {
   console.error(err);
