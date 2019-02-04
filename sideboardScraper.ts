@@ -1,7 +1,7 @@
 import { ArgumentParser } from 'argparse';
 import * as cheerio from 'cheerio';
 import { createWriteStream } from 'fs';
-import * as rp from 'request-promise';
+import requestPromise = require('request-promise');
 
 const url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/competitive-modern-constructed-league-'
   + '2019-02-01';
@@ -66,7 +66,7 @@ parser.addArgument(['-o', '--output'], {
 
 const args = parser.parseArgs();
 
-rp(url).then((html: string) => {
+requestPromise(url).then((html: string) => {
   const cardsList = parseCardsList(html);
   writeToFile(cardsList, args.output);
 }).catch((err: any) => {
