@@ -1,3 +1,4 @@
+import { ArgumentParser } from 'argparse';
 import * as cheerio from 'cheerio';
 import { createWriteStream } from 'fs';
 import * as rp from 'request-promise';
@@ -52,9 +53,22 @@ function writeToFile(cardsList: Card[], filename: string): void {
   console.log('Finished writing.');
 }
 
+const parser = new ArgumentParser({
+  addHelp: true,
+  description: process.env.npm_package_description,
+  version: process.env.npm_package_version
+});
+
+parser.addArgument(['-o', '--output'], {
+  defaultValue: './sideboard.csv',
+  help: 'Filename where you want to save the results (csv).'
+});
+
+const args = parser.parseArgs();
+
 rp(url).then((html: string) => {
   const cardsList = parseCardsList(html);
-  writeToFile(cardsList, 'sideboard.csv');
+  writeToFile(cardsList, args.output);
 }).catch((err: any) => {
   console.error(err);
 });
